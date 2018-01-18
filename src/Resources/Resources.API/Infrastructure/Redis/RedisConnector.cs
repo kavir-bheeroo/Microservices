@@ -8,8 +8,9 @@ namespace Resources.API.Infrastructure.Redis
         static RedisConnectorHelper()  
         {  
             RedisConnectorHelper.lazyConnection = new Lazy<ConnectionMultiplexer>(() =>  
-            {  
-                return ConnectionMultiplexer.Connect("localhost:32768");  
+            {
+                System.Console.WriteLine(RedisEndpoint);
+                return ConnectionMultiplexer.Connect(RedisEndpoint);  
             });  
         }  
           
@@ -21,7 +22,22 @@ namespace Resources.API.Infrastructure.Redis
             {  
                 return lazyConnection.Value;  
             }  
-        }  
+        } 
+
+        private static string _redisEndpoint;
+
+        public static string RedisEndpoint
+        { 
+            get
+            {
+                return _redisEndpoint ?? throw new Exception($"{nameof(RedisEndpoint)} cannot be null");
+            }
+
+            set
+            {
+                _redisEndpoint = value;
+            }
+        }
     }  
 
 }
