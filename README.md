@@ -10,6 +10,7 @@ What's better than coding, to learn microservices?
 - Implement a Service Bus - perhaps use EventSourcing
 - Add health checks
 - Move the entire stack to an orchestrator - Kubernetes
+- Integrate with the ELK stack
 
 ## Microservices to build
 - The general idea with this example is to build a Bus Fleet management system in Microservices-style. The following services will be built:
