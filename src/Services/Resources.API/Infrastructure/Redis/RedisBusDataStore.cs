@@ -1,11 +1,12 @@
 using System;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Resources.API.Configuration;
-using Resources.API.Models;
+using Microservices.Services.Resources.API.Configuration;
+using Microservices.Services.Resources.API.Models;
+using Microservices.Services.Resources.API.Infrastructure.Redis;
 using StackExchange.Redis;
 
-namespace Resources.API.Infrastructure.Redis
+namespace Microservices.Services.Resources.API.Infrastructure.Redis
 {
     public class RedisBusDataStore : IBusDataStore
     {

@@ -1,4 +1,4 @@
-namespace Resources.API.Configuration
+namespace Microservices.Services.Resources.API.Configuration
 {
     public class EndpointsConfig
     {

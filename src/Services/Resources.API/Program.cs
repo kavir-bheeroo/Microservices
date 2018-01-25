@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Resources.API
+namespace Microservices.Services.Resources.API
 {
     public class Program
     {

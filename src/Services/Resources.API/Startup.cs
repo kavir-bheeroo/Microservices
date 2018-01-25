@@ -8,11 +8,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Resources.API.Configuration;
-using Resources.API.Infrastructure;
-using Resources.API.Infrastructure.Redis;
+using Microservices.Services.Resources.API.Configuration;
+using Microservices.Services.Resources.API.Infrastructure;
+using Microservices.Services.Resources.API.Infrastructure.Redis;
 
-namespace Resources.API
+namespace Microservices.Services.Resources.API
 {
     public class Startup
     {

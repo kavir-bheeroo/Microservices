@@ -1,7 +1,7 @@
 using System;
-using Resources.API.Models;
+using Microservices.Services.Resources.API.Models;
 
-namespace Resources.API.Infrastructure
+namespace Microservices.Services.Resources.API.Infrastructure
 {
     public interface IBusDataStore
     {

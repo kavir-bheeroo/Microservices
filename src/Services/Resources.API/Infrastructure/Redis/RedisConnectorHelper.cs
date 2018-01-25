@@ -1,7 +1,7 @@
 using System;
 using StackExchange.Redis;
 
-namespace Resources.API.Infrastructure.Redis
+namespace Microservices.Services.Resources.API.Infrastructure.Redis
 {
     public class RedisConnectorHelper  
     {                  

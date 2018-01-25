@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Resources.API.Infrastructure;
-using Resources.API.Models;
+using Microservices.Services.Resources.API.Infrastructure;
+using Microservices.Services.Resources.API.Models;
 
-namespace Resources.API.Controllers
+namespace Microservices.Services.Resources.API.Controllers
 {
     [Route("api/[controller]")]
     public class BusesController : Controller

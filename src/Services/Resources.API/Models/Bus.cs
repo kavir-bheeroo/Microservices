@@ -1,6 +1,6 @@
 using System;
 
-namespace Resources.API.Models
+namespace Microservices.Services.Resources.API.Models
 {
     public class Bus
     {
