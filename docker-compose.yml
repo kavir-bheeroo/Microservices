@@ -9,9 +9,16 @@ services:
       - "Endpoints:Redis=redis:6379"
     container_name: resources-api
     depends_on:
+      - rabbitmq
       - redis
   redis:
-    image: "redis"
+    image: redis
     ports:
       - "32768:6379"
     container_name: redis
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 8080:15672
+      - 5672:5672
+    container_name: rabbitmq
