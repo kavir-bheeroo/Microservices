@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microservices.Services.Resources.API.Infrastructure;
 using Microservices.Services.Resources.API.Models;
+using Microservices.BuildingBlocks.EventBus.Abstractions;
+using Microservices.Services.Resources.API.IntegrationEvents.Events;
 
 namespace Microservices.Services.Resources.API.Controllers
 {
@@ -12,10 +14,12 @@ namespace Microservices.Services.Resources.API.Controllers
     public class BusesController : Controller
     {
         private readonly IBusDataStore _busDataStore;
+        private readonly IEventBus _eventBus;
 
-        public BusesController(IBusDataStore busDataStore)
+        public BusesController(IBusDataStore busDataStore, IEventBus eventBus)
         {
             _busDataStore = busDataStore ?? throw new ArgumentNullException(nameof(busDataStore));
+            _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
         }
 
         [HttpGet("{id}")]
@@ -37,6 +41,10 @@ namespace Microservices.Services.Resources.API.Controllers
 
             bus.Id = Guid.NewGuid();
             _busDataStore.Add(bus);
+
+            // Publish event
+            var @event = new BusAddedIntegrationEvent(bus.Id);
+            _eventBus.Publish(@event);
 
             return Created("test", bus);
         }

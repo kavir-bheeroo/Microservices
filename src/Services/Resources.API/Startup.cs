@@ -11,6 +11,10 @@ using Microsoft.Extensions.Options;
 using Microservices.Services.Resources.API.Configuration;
 using Microservices.Services.Resources.API.Infrastructure;
 using Microservices.Services.Resources.API.Infrastructure.Redis;
+using Microservices.BuildingBlocks.EventBusRabbitMQ;
+using Microservices.BuildingBlocks.EventBus.Abstractions;
+using Microservices.BuildingBlocks.EventBus;
+using RabbitMQ.Client;
 
 namespace Microservices.Services.Resources.API
 {
@@ -29,6 +33,35 @@ namespace Microservices.Services.Resources.API
             services.Configure<EndpointsConfig>(Configuration.GetSection("Endpoints"));
 
             services.AddSingleton<IBusDataStore, RedisBusDataStore>();
+
+            services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
+            {
+                var factory = new ConnectionFactory()
+                {
+                    HostName = Configuration.GetValue<string>("Endpoints:RabbitMq")
+                };
+
+                if (!string.IsNullOrEmpty(Configuration["EventBusUserName"]))
+                {
+                    factory.UserName = Configuration["EventBusUserName"];
+                }
+
+                if (!string.IsNullOrEmpty(Configuration["EventBusPassword"]))
+                {
+                    factory.Password = Configuration["EventBusPassword"];
+                }
+
+                var retryCount = 5;
+                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+                {
+                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
+                }
+
+                return new DefaultRabbitMQPersistentConnection(factory, retryCount);
+            });
+
+            RegisterEventBus(services);
+
             services.AddMvc();
         }
 
@@ -41,6 +74,27 @@ namespace Microservices.Services.Resources.API
             }
 
             app.UseMvc();
+        }
+
+        private void RegisterEventBus(IServiceCollection services)
+        {
+            var subscriptionClientName = Configuration.GetValue<string>("SubscriptionClientName");
+
+            services.AddSingleton<IEventBus, EventBusRabbitMQ>(sp =>
+            {
+                var rabbitMQPersistentConnection = sp.GetRequiredService<IRabbitMQPersistentConnection>();
+                var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+
+                var retryCount = 5;
+                if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
+                {
+                    retryCount = int.Parse(Configuration["EventBusRetryCount"]);
+                }
+
+                return new EventBusRabbitMQ(rabbitMQPersistentConnection, eventBusSubcriptionsManager, subscriptionClientName, retryCount);
+            });
+
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
         }
     }
 }

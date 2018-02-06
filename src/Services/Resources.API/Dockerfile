@@ -13,19 +13,30 @@
 # ENTRYPOINT ["dotnet", "Resources.API.dll"]
 
 # multi-stage build
-FROM microsoft/aspnetcore-build:2.0 AS build-env
+FROM microsoft/aspnetcore:2.0 AS base
 WORKDIR /app
+EXPOSE 80
+
+FROM microsoft/aspnetcore-build:2.0 AS build
+WORKDIR /src
 
 # Copy csproj and restore as distinct layers
-COPY *.csproj ./
+COPY Microservices.sln ./
+COPY src/Services/Resources.API/Resources.API.csproj /Services/Resources.API/
+COPY src/BuildingBlocks/EventBus/EventBus.csproj /BuildingBlocks/EventBusRabbitMQ/
+COPY src/BuildingBlocks/EventBusRabbitMQ/EventBusRabbitMQ.csproj /BuildingBlocks/EventBusRabbitMQ/
 RUN dotnet restore
 
 # Copy everything else and build
-COPY . ./
-RUN dotnet publish -c Release -o out
+COPY . .
+WORKDIR src/Services/Resources.API
+RUN dotnet build -c Release -o /app
+
+FROM build AS publish 
+RUN dotnet publish -c Release -o /app
 
 # Build runtime image
-FROM microsoft/aspnetcore:2.0
+FROM base AS final
 WORKDIR /app
-COPY --from=build-env /app/out .
+COPY --from=publish /app .
 ENTRYPOINT ["dotnet", "Resources.API.dll"]
