@@ -15,7 +15,15 @@ What's better than coding, to learn microservices?
 ## Microservices to build
 - The general idea with this example is to build a Bus Fleet management system in Microservices-style. The following services will be built:
 1. Resources - to manage buses, drivers and conductors
-2. Roster
-3. Payroll
-4. Income
+2. Roster - generate a tentative schedule for buses and workers
+3. Payroll - calculate the pay of employees
+4. Revenue - DDD approach
+    - Add trip details and adjust revenue
+    - Two aggregates - Trip and Revenue.
+    - Trip mush raise a domain event to update revenue and integration event to update payroll.
 5. Identity Server
+
+## Technologies used
+- Docker
+- Event Bus - RabbitMQ
+- Redis
