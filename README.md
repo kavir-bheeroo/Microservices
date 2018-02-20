@@ -21,6 +21,7 @@ What's better than coding, to learn microservices?
     - Add trip details and adjust revenue
     - Two aggregates - Trip and Revenue.
     - Trip mush raise a domain event to update revenue and integration event to update payroll.
+    - Send emails when a trip is updated.
 5. Identity Server
 
 ## Technologies used

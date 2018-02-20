@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microservices.Services.Revenue.Domain.Events;
 using Microservices.Services.Revenue.Domain.Seedwork;
 
 namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
 {
     public class Trip : Entity, IAggregateRoot
     {
+        private DateTime _tripDate;
+
         public Guid BusId { get; private set; }
         public Guid DriverId { get; private set; }
         public Guid ConductorId { get; private set; }
@@ -15,13 +18,20 @@ namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
         public int TotalTrips => TripLegs.Count;
         public decimal TotalRevenue => TripLegs.Sum(t => t.GetRevenue());
 
-        public Trip(Guid busId, Guid driverId, Guid conductorId)
+        public Trip(DateTime tripDate, Guid busId, Guid driverId, Guid conductorId, List<(string route, decimal revenue)> tripLegs)
         {
             // todo: Add validations
+            _tripDate = tripDate;
+            
             BusId = busId;
             DriverId = driverId;
             ConductorId = conductorId;
+            
             TripLegs = new List<TripLeg>();
+            tripLegs.ForEach((tuple) => AddTripLeg(tuple.route, tuple.revenue));
+
+            // todo: should normally be raised in the constructor.
+            AddDomainEvent(new TripCreatedDomainEvent(this));
         }
 
         public void AddTripLeg(string route, decimal revenue)
