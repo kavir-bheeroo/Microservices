@@ -30,11 +30,10 @@ namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
             TripLegs = new List<TripLeg>();
             tripLegs.ForEach((tuple) => AddTripLeg(tuple.route, tuple.revenue));
 
-            // todo: should normally be raised in the constructor.
             AddDomainEvent(new TripCreatedDomainEvent(this));
         }
 
-        public void AddTripLeg(string route, decimal revenue)
+        private void AddTripLeg(string route, decimal revenue)
         {
             var tripLeg = new TripLeg(route, revenue);
             TripLegs.Add(tripLeg);

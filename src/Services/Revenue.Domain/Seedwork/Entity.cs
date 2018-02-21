@@ -73,6 +73,7 @@ namespace Microservices.Services.Revenue.Domain.Seedwork
                 return base.GetHashCode();
 
         }
+        
         public static bool operator ==(Entity left, Entity right)
         {
             if (Object.Equals(left, null))
