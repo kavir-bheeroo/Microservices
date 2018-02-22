@@ -16,7 +16,7 @@ namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
 
         public List<TripLeg> TripLegs { get; private set; }
         public int TotalTrips => TripLegs.Count;
-        public decimal TotalRevenue => TripLegs.Sum(t => t.GetRevenue());
+        public decimal TotalRevenue => TripLegs.Sum(t => t.Revenue);
 
         public Trip(DateTime tripDate, Guid busId, Guid driverId, Guid conductorId, List<(string route, decimal revenue)> tripLegs)
         {

@@ -3,19 +3,22 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\"/>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0"/>
-    <PackageReference Include="MediatR" Version="4.0.1"/>
-    <PackageReference Include="Scrutor" Version="2.1.2"/>
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="4.0.0"/>
-    <PackageReference Include="FluentValidation" Version="7.4.0"/>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="MediatR" Version="4.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
+    <PackageReference Include="Scrutor" Version="2.1.2" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="4.0.0" />
+    <PackageReference Include="FluentValidation" Version="7.4.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" PrivateAssets="All" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0"/>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Revenue.Domain\Revenue.Domain.csproj"/>
+    <ProjectReference Include="..\Revenue.Domain\Revenue.Domain.csproj" />
+    <ProjectReference Include="..\Revenue.Infrastructure\Revenue.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

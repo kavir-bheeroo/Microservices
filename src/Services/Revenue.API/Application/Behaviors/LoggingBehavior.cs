@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -13,9 +14,19 @@ namespace Microservices.Services.Revenue.API.Application.Behaviors
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            _logger.LogInformation($"Handling {typeof(TRequest).Name}");
-            var response = await next();
-            _logger.LogInformation($"Handled {typeof(TRequest).Name}");
+            TResponse response = default(TResponse);
+
+            try
+            {
+                _logger.LogInformation($"Handling {typeof(TRequest).Name}");
+                response = await next();
+                _logger.LogInformation($"Handled {typeof(TRequest).Name}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
+            }
+
             return response;
         }
     }

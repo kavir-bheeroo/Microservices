@@ -5,25 +5,20 @@ namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
 {
     public class TripLeg : ValueObject
     {
-        private string _route;
-        private decimal _revenue;
+        public string Route { get; private set; }
+        public decimal Revenue { get; private set; }
 
         public TripLeg(string route = null, decimal revenue = 0)
         {
             // todo: Add validations.
-            _route = route;
-            _revenue = revenue;
-        }
-
-        public decimal GetRevenue()
-        {
-            return _revenue;
+            Route = route;
+            Revenue = revenue;
         }
 
         protected override IEnumerable<object> GetAtomicValues()
         {
-            yield return _route;
-            yield return _revenue;
+            yield return Route;
+            yield return Revenue;
         }
     }
 }

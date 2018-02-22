@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using MediatR;
+using Microservices.Services.Revenue.API.Application.ViewModels;
 
 namespace Microservices.Services.Revenue.API.Application.Commands
 {
     [DataContract]
-    public class CreateTripCommand : IRequest<bool>
+    public class CreateTripCommand : IRequest<TripViewModel>
     {
         private readonly List<TripLegDto> _tripLegs;
         
