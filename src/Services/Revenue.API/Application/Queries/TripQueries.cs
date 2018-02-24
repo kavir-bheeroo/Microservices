@@ -24,9 +24,10 @@ namespace Microservices.Services.Revenue.API.Application.Queries
             {
                 await connection.OpenAsync();
 
-                var query = "SELECT * FROM Revenue.Trips";
+                var parameters = new { id };
+                var query = "SELECT * FROM Revenue.Trips WHERE Id = @Id";
 
-                var result =  await connection.QueryAsync<dynamic>(query);
+                var result =  await connection.QueryAsync<dynamic>(query, parameters);
 
                 if (!result.AsList().Any())
                     throw new KeyNotFoundException();
