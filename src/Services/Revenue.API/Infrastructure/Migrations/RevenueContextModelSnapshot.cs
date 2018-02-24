@@ -36,7 +36,7 @@ namespace Revenue.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Trip","Revenue");
+                    b.ToTable("Trips","Revenue");
                 });
 
             modelBuilder.Entity("Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate.Trip", b =>
@@ -47,7 +47,7 @@ namespace Revenue.API.Migrations
 
                             b1.Property<int>("Capacity");
 
-                            b1.ToTable("Trip","Revenue");
+                            b1.ToTable("Trips","Revenue");
 
                             b1.HasOne("Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate.Trip")
                                 .WithOne("TripLegs")

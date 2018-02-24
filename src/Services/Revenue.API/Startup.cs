@@ -6,6 +6,7 @@ using FluentValidation;
 using MediatR;
 using Microservices.Services.Revenue.API.Application.Behaviors;
 using Microservices.Services.Revenue.API.Application.Commands;
+using Microservices.Services.Revenue.API.Application.Queries;
 using Microservices.Services.Revenue.API.Application.Validations;
 using Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate;
 using Microservices.Services.Revenue.Infrastructure;
@@ -52,6 +53,7 @@ namespace Revenue.API
                 });           
 
             services.AddScoped<ITripRepository, TripRepository>();
+            services.AddScoped<ITripQueries>(sp => new TripQueries(Configuration.GetConnectionString("SqlServerDb")));
 
             services.AddMvc();
         }

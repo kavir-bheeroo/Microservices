@@ -17,7 +17,7 @@ namespace Revenue.API.Migrations
                 incrementBy: 10);
 
             migrationBuilder.CreateTable(
-                name: "Trip",
+                name: "Trips",
                 schema: "Revenue",
                 columns: table => new
                 {
@@ -29,14 +29,14 @@ namespace Revenue.API.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trip", x => x.Id);
+                    table.PrimaryKey("PK_Trips", x => x.Id);
                 });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Trip",
+                name: "Trips",
                 schema: "Revenue");
 
             migrationBuilder.DropSequence(

@@ -8,7 +8,7 @@ namespace Microservices.Services.Revenue.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Trip> builder)
         {
-            builder.ToTable("Trip", RevenueContext.DEFAULT_SCHEMA);
+            builder.ToTable("Trips", RevenueContext.DEFAULT_SCHEMA);
 
             builder.HasKey(o => o.Id);
             builder.Ignore(o => o.DomainEvents);
