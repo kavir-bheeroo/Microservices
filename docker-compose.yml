@@ -1,5 +1,6 @@
 version: "3.4"
 services:
+
   resources:
     build:
       context: .
@@ -13,6 +14,7 @@ services:
     depends_on:
       - rabbitmq
       - redis
+
   roster:
     build:
       context: .
@@ -24,14 +26,38 @@ services:
     container_name: roster-api
     depends_on:
       - rabbitmq
+
+  revenue:
+    build:
+      context: .
+      dockerfile: ./src/Services/Revenue.API/Dockerfile
+    ports:
+      - "5003:80"
+    environment:
+      - "ConnectionStrings:SqlServerDb=Server=sqlserver;Database=Microservices.Services.RevenueDb;User Id=sa;Password=Pass_w0rd;Application Name=Revenue.API"
+    container_name: revenue-api
+    depends_on:
+      - sqlserver
+
   redis:
     image: redis
     ports:
       - "32768:6379"
     container_name: redis
+
   rabbitmq:
     image: rabbitmq:3-management
     ports:
       - 8080:15672
       - 5672:5672
     container_name: rabbitmq
+  
+  sqlserver:
+    image: microsoft/mssql-server-linux:2017-latest
+    environment:
+      - MSSQL_SA_PASSWORD=Pass_w0rd
+      - ACCEPT_EULA=Y
+      - MSSQL_PID=Developer
+    ports:
+      - "1401:1433"
+    container_name: sqlserver
