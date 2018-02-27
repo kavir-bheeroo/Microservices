@@ -14,9 +14,11 @@ namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
         public Guid DriverId { get; private set; }
         public Guid ConductorId { get; private set; }
 
-        public List<TripLeg> TripLegs { get; private set; }
-        public int TotalTrips => TripLegs.Count;
-        public decimal TotalRevenue => TripLegs.Sum(t => t.Revenue);
+        private readonly List<TripLeg> _tripLegs;
+        public IReadOnlyCollection<TripLeg> TripLegs => _tripLegs;
+
+        public int TotalTrips { get { return TripLegs.Count; } private set { } }
+        public decimal TotalRevenue { get { return TripLegs.Sum(t => t.Revenue); } private set { } }
 
         public Trip(DateTime tripDate, Guid busId, Guid driverId, Guid conductorId, List<(string route, decimal revenue)> tripLegs)
         {
@@ -27,7 +29,7 @@ namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
             DriverId = driverId;
             ConductorId = conductorId;
             
-            TripLegs = new List<TripLeg>();
+            _tripLegs = new List<TripLeg>();
             tripLegs.ForEach((tuple) => AddTripLeg(tuple.route, tuple.revenue));
 
             AddDomainEvent(new TripCreatedDomainEvent(this));
@@ -36,7 +38,7 @@ namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
         private void AddTripLeg(string route, decimal revenue)
         {
             var tripLeg = new TripLeg(route, revenue);
-            TripLegs.Add(tripLeg);
+            _tripLegs.Add(tripLeg);
         }
     }
 }

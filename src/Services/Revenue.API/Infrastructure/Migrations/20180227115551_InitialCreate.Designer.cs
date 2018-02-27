@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace Revenue.API.Migrations
 {
     [DbContext(typeof(RevenueContext))]
-    [Migration("20180224210430_InitialCreate")]
+    [Migration("20180227115551_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,26 +36,40 @@ namespace Revenue.API.Migrations
 
                     b.Property<Guid>("DriverId");
 
+                    b.Property<decimal>("TotalRevenue");
+
+                    b.Property<int>("TotalTrips");
+
+                    b.Property<DateTime>("TripDate");
+
                     b.HasKey("Id");
 
                     b.ToTable("Trips","Revenue");
                 });
 
-            modelBuilder.Entity("Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate.Trip", b =>
+            modelBuilder.Entity("Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate.TripLeg", b =>
                 {
-                    b.OwnsOne("System.Collections.Generic.List<Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate.TripLeg>", "TripLegs", b1 =>
-                        {
-                            b1.Property<int>("TripId");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
-                            b1.Property<int>("Capacity");
+                    b.Property<decimal>("Revenue");
 
-                            b1.ToTable("Trips","Revenue");
+                    b.Property<string>("Route");
 
-                            b1.HasOne("Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate.Trip")
-                                .WithOne("TripLegs")
-                                .HasForeignKey("System.Collections.Generic.List<Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate.TripLeg>", "TripId")
-                                .OnDelete(DeleteBehavior.Cascade);
-                        });
+                    b.Property<int?>("TripId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TripId");
+
+                    b.ToTable("TripLegs","Revenue");
+                });
+
+            modelBuilder.Entity("Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate.TripLeg", b =>
+                {
+                    b.HasOne("Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate.Trip")
+                        .WithMany("TripLegs")
+                        .HasForeignKey("TripId");
                 });
 #pragma warning restore 612, 618
         }

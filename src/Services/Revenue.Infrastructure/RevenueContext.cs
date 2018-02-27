@@ -27,6 +27,7 @@ namespace Microservices.Services.Revenue.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new TripEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new TripLegEntityTypeConfiguration());
         }
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
