@@ -11,6 +11,7 @@ namespace Microservices.Services.Revenue.API.Application.ViewModels
         public Guid ConductorId { get; set; }
         public int TotalTrips { get; set; }
         public decimal TotalRevenue { get; set; }
+        public DateTime TripDate { get; set; }
         public List<TripLegViewModel> TripLegs { get; set; }
     }
 

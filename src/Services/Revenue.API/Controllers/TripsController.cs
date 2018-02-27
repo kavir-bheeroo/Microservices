@@ -34,7 +34,7 @@ namespace Microservices.Services.Revenue.API.Controllers
 
         [Route("{tripId:int}")]
         [HttpGet]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TripViewModel), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetTrip([FromRoute]int tripId)
         {

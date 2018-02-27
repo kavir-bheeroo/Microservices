@@ -8,7 +8,7 @@ namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
 {
     public class Trip : Entity, IAggregateRoot
     {
-        private DateTime _tripDate;
+        public DateTime TripDate { get; private set; }
 
         public Guid BusId { get; private set; }
         public Guid DriverId { get; private set; }
@@ -23,7 +23,7 @@ namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
         public Trip(DateTime tripDate, Guid busId, Guid driverId, Guid conductorId, List<(string route, decimal revenue)> tripLegs)
         {
             // todo: Add validations
-            _tripDate = tripDate;
+            TripDate = tripDate;
             
             BusId = busId;
             DriverId = driverId;

@@ -45,6 +45,7 @@ namespace Microservices.Services.Revenue.API.Application.Commands
                 ConductorId = trip.ConductorId,
                 TotalTrips = trip.TotalTrips,
                 TotalRevenue = trip.TotalRevenue,
+                TripDate = trip.TripDate,
                 TripLegs = trip.TripLegs.Select(t => MapTripLegToTripLegViewModel(t)).ToList()
             };
 
