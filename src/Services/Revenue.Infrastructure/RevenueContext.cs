@@ -30,6 +30,7 @@ namespace Microservices.Services.Revenue.Infrastructure
         {
             modelBuilder.ApplyConfiguration(new TripEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new TripLegEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new DailyRevenueEntityTypeConfiguration());
         }
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))

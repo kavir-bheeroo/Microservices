@@ -11,9 +11,10 @@ using System;
 namespace Revenue.API.Migrations
 {
     [DbContext(typeof(RevenueContext))]
-    partial class RevenueContextModelSnapshot : ModelSnapshot
+    [Migration("20180302070526_AddedDailyRevenue")]
+    partial class AddedDailyRevenue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -12,9 +12,9 @@ namespace Microservices.Services.Revenue.API.Application.DomainEventHandlers
     public class TripCreatedDomainEventHandler : INotificationHandler<TripCreatedDomainEvent>
     {
         private readonly IDailyRevenueRepository _dailyRevenueRepository;
-        private readonly ILogger _logger;
+        private readonly ILogger<TripCreatedDomainEventHandler> _logger;
 
-        public TripCreatedDomainEventHandler(IDailyRevenueRepository dailyRevenueRepository, ILogger logger)
+        public TripCreatedDomainEventHandler(IDailyRevenueRepository dailyRevenueRepository, ILogger<TripCreatedDomainEventHandler> logger)
         {
             _dailyRevenueRepository = dailyRevenueRepository ?? throw new ArgumentNullException(nameof(dailyRevenueRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

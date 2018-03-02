@@ -10,6 +10,11 @@ namespace Microservices.Services.Revenue.Domain.AggregatesModel.DailyRevenueAggr
         public DateTime Date { get; private set; }
         public decimal TotalIncome { get; private set; }
 
+        protected DailyRevenue()
+        {
+            TotalIncome = 0M;
+        }
+
         public DailyRevenue(DateTime date, decimal amount)
         {
             Date = date.Date;
