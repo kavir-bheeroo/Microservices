@@ -31,4 +31,17 @@ namespace Microservices.Services.Revenue.API.Application.Validations
                 .SetCollectionValidator(new TripLegValidator());
         }
     }
+
+    public class TripLegValidator : AbstractValidator<TripLegDto>
+    {
+        public TripLegValidator()
+        {
+            RuleFor(tripLeg => tripLeg.Route)
+                .NotEmpty()
+                .NotNull();
+
+            RuleFor(tripLeg => tripLeg.Revenue)
+                .GreaterThanOrEqualTo(0.0M);
+        }
+    }
 }

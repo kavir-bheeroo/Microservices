@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microservices.Services.Revenue.Domain.Events;
 using Microservices.Services.Revenue.Domain.Seedwork;
+using Revenue.Domain.Exceptions;
 
 namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
 {
@@ -37,6 +38,8 @@ namespace Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate
 
         private void AddTripLeg(string route, decimal revenue)
         {
+            if (revenue <= 0) throw new RevenueDomainException($"{nameof(revenue)} cannot be zero or less.");
+            
             var tripLeg = new TripLeg(route, revenue);
             _tripLegs.Add(tripLeg);
         }

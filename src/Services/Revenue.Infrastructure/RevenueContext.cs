@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Microservices.Services.Revenue.Domain.AggregatesModel.DailyRevenueAggregate;
 using Microservices.Services.Revenue.Domain.AggregatesModel.TripAggregate;
 using Microservices.Services.Revenue.Domain.Seedwork;
 using Microservices.Services.Revenue.Infrastructure.EntityConfigurations;
@@ -14,6 +15,7 @@ namespace Microservices.Services.Revenue.Infrastructure
         public const string DEFAULT_SCHEMA = "Revenue";
 
         public DbSet<Trip> Trip { get; set; }
+        public DbSet<DailyRevenue> DailyRevenue { get; set; }
 
         private readonly IMediator _mediator;
 

@@ -28,3 +28,4 @@ What's better than coding, to learn microservices?
 - Docker
 - Event Bus - RabbitMQ
 - Redis
+- Mediator Pattern with MediatR
