@@ -7,10 +7,12 @@ using Microservices.Services.Resources.API.Infrastructure;
 using Microservices.Services.Resources.API.Models;
 using Microservices.BuildingBlocks.EventBus.Abstractions;
 using Microservices.Services.Resources.API.IntegrationEvents.Events;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Microservices.Services.Resources.API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     public class BusesController : Controller
     {
         private readonly IBusDataStore _busDataStore;

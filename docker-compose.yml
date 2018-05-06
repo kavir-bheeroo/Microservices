@@ -9,7 +9,7 @@ services:
       - "5000:80"
     environment:
       - "ConnectionStrings:IdentityServerDb=Server=sqlserver;Database=Microservices.Services.IdentityServerDb;User Id=sa;Password=Pass_w0rd;Application Name=Identity.API"
-    container_name: identity-api
+    container_name: identity
     depends_on:
       - sqlserver
 
@@ -22,7 +22,7 @@ services:
     environment:
       - "Endpoints:Redis=redis:6379"
       - "Endpoints:RabbitMq=rabbitmq"
-      - "Endpoints:IdentityServer=identity-api"
+      - "Endpoints:IdentityServer=http://identity"
     container_name: resources-api
     depends_on:
       - rabbitmq

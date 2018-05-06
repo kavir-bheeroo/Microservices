@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using System.Security.Claims;
 using IdentityServer4;
 using IdentityServer4.Models;
+using IdentityServer4.Test;
 
 namespace Microservices.Services.Identity.API.Configuration
 {
@@ -34,7 +36,7 @@ namespace Microservices.Services.Identity.API.Configuration
                 new Client
                 {
                     ClientId = "postman",
-
+                    ClientName = "Postman application for testing",
                     // no interactive user, use the clientid/secret for authentication
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
 

@@ -67,7 +67,7 @@ namespace Microservices.Services.Resources.API
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = Configuration["IdentityServer"];
+                    options.Authority = Configuration.GetValue<string>("Endpoints:IdentityServer");
                     options.RequireHttpsMetadata = false;
                     options.ApiName = "resources";
                 });

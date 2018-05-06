@@ -26,7 +26,7 @@ namespace Microservices.Services.Identity.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("IdentityServerDB");
+            var connectionString = Configuration.GetConnectionString("IdentityServerDb");
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             // Configure Identity Server
