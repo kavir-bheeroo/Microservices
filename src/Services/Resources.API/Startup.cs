@@ -63,6 +63,14 @@ namespace Microservices.Services.Resources.API
             RegisterEventBus(services);
 
             services.AddMvc();
+            
+            services.AddAuthentication("Bearer")
+                .AddIdentityServerAuthentication(options =>
+                {
+                    options.Authority = Configuration["IdentityServer"];
+                    options.RequireHttpsMetadata = false;
+                    options.ApiName = "resources";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,6 +81,7 @@ namespace Microservices.Services.Resources.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
             app.UseMvc();
         }
 
