@@ -11,6 +11,7 @@ services:
       - "ConnectionStrings:IdentityServerDb=Server=sqlserver;Database=Microservices.Services.IdentityServerDb;User Id=sa;Password=Pass_w0rd;Application Name=Identity.API"
       - "SigningKeyCredentials:KeyFilePath=/app/Certificates/identityserver.pfx"
       - "SigningKeyCredentials:KeyFilePassword=Password22!"
+      - "Endpoints:IdentityServer=http://identity"
     container_name: identity
     depends_on:
       - sqlserver
