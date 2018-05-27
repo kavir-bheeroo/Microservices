@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
 using Microservices.Services.Identity.API.Configuration;
+using Microservices.Services.Identity.API.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -17,12 +19,14 @@ namespace Microservices.Services.Identity.API
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
             Configuration = configuration;
+            HostingEnvironment = hostingEnvironment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment HostingEnvironment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,7 +35,8 @@ namespace Microservices.Services.Identity.API
 
             // Configure Identity Server
             services.AddIdentityServer()
-                .AddDeveloperSigningCredential()
+                .AddCertificateFromFile(HostingEnvironment, Configuration)
+                //.AddDeveloperSigningCredential()
                 //.AddTestUsers(Config.GetUsers())
                 // this adds the config data from DB (clients, resources)
                 .AddConfigurationStore(options =>

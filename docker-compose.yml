@@ -9,6 +9,8 @@ services:
       - "5000:80"
     environment:
       - "ConnectionStrings:IdentityServerDb=Server=sqlserver;Database=Microservices.Services.IdentityServerDb;User Id=sa;Password=Pass_w0rd;Application Name=Identity.API"
+      - "SigningKeyCredentials:KeyFilePath=/app/Certificates/identityserver.pfx"
+      - "SigningKeyCredentials:KeyFilePassword=Password22!"
     container_name: identity
     depends_on:
       - sqlserver

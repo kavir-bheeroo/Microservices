@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Services/Revenue.API/bin/Debug/netcoreapp2.0/Revenue.API.dll",
+            "program": "${workspaceFolder}/src/Services/Identity.API/bin/Debug/netcoreapp2.0/Identity.API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/Services/Revenue.API",
+            "cwd": "${workspaceFolder}/src/Services/Identity.API",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {
