@@ -22,10 +22,12 @@ What's better than coding, to learn microservices?
     - Two aggregates - Trip and DailyRevenue.
     - Trip mush raise a domain event to update revenue and integration event to update payroll.
     - Update revenue when a trip is updated.
-5. Identity Server
+5. Identity Server - All configuration are stored in SQL Server and managed via EF Core.
 
 ## Technologies used
 - Docker
 - Event Bus - RabbitMQ
 - Redis
 - Mediator Pattern with MediatR
+- IdentityServer4
+- EntityFramework Core

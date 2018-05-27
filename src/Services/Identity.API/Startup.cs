@@ -34,10 +34,8 @@ namespace Microservices.Services.Identity.API
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
 
             // Configure Identity Server
-            services.AddIdentityServer(x => { x.IssuerUri = "null"; })
+            services.AddIdentityServer(x => { x.IssuerUri = "null"; })  // Use null if a common domain name is not available for the Identity Server
                 .AddCertificateFromFile(HostingEnvironment, Configuration)
-                //.AddDeveloperSigningCredential()
-                //.AddTestUsers(Config.GetUsers())
                 // this adds the config data from DB (clients, resources)
                 .AddConfigurationStore(options =>
                 {
