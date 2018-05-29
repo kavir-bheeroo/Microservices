@@ -1,0 +1,43 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: identity-server
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: microservices
+        component: identity-server
+    spec:
+      containers:
+      - name: identity-server
+        image: kavir/microservices_identity:0.1
+        ports:
+        - containerPort: 80
+        env:
+          - name: ConnectionStrings__IdentityServerDb
+            value: "Server=sqlserver;Database=Microservices.Services.IdentityServerDb;User Id=sa;Password=Pass_w0rd;Application Name=Identity.API"
+          - name: SigningKeyCredentials__KeyFilePath
+            value: "/app/Certificates/identityserver.pfx"
+          - name: SigningKeyCredentials__KeyFilePassword
+            value: "Password22!"
+          - name: Endpoints__IdentityServer
+            value: "http://identity-server"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identity-server
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+  selector:
+    app: microservices
+    component: identity-server

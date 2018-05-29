@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: microservices
+    component: redis
+  name: redis
+spec:
+  ports:
+  - port: 6379
+  selector:
+    app: microservices
+    component: redis
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  template:
+    metadata:
+      labels:
+        app: microservices
+        component: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis

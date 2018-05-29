@@ -1,0 +1,118 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: resources-api
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: microservices
+        component: resources-api
+    spec:
+      containers:
+      - name: resources-api
+        image: kavir/microservices_resources:0.1
+        ports:
+        - containerPort: 80
+        env:
+          - name: Endpoints__Redis
+            value: "redis:6379"
+          - name: Endpoints__RabbitMq
+            value: "rabbitmq"
+          - name: Endpoints__IdentityServer
+            value: "http://identity-server"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: resources-api
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+  selector:
+    app: microservices
+    component: resources-api
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: roster-api
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: microservices
+        component: roster-api
+    spec:
+      containers:
+      - name: roster-api
+        image: kavir/microservices_roster:0.1
+        ports:
+        - containerPort: 80
+        env:
+          - name: Endpoints__RabbitMq
+            value: "rabbitmq"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: roster-api
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+  selector:
+    app: microservices
+    component: roster-api
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: revenue-api
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5 
+  template:
+    metadata:
+      labels:
+        app: microservices
+        component: revenue-api
+    spec:
+      containers:
+      - name: revenue-api
+        image: kavir/microservices_revenue:0.1
+        ports:
+        - containerPort: 80
+        env:
+        - name: ConnectionStrings__SqlServerDb
+          value: "Server=sqlserver;Database=Microservices.Services.RevenueDb;User Id=sa;Password=Pass_w0rd;Application Name=Revenue.API"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: revenue-api
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+  selector:
+    app: microservices
+    component: revenue-api
