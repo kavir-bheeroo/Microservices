@@ -31,3 +31,9 @@ What's better than coding, to learn microservices?
 - Mediator Pattern with MediatR
 - IdentityServer4
 - EntityFramework Core
+- Kubernetes
+
+## Get Started
+- All relevant services have been packaged in Docker images and pushed to a public Docker Hub repository.
+- Running the following command on a Kubernetes Cluster will deploy the entire application.
+- `kubectl create -f .\k8s\sql-server.yml -f .\k8s\rabbitmq.yml -f .\k8s\redis.yml -f .\k8s\identity-service.yml -f .\k8s\backend-services.yml`
