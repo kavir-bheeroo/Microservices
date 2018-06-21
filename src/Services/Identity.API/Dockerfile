@@ -8,6 +8,8 @@ WORKDIR /src
 # Copy csproj and restore as distinct layers
 COPY Microservices.sln ./
 COPY src/Services/Identity.API/Identity.API.csproj /Services/Identity.API/
+COPY src/BuildingBlocks/HealthChecks/HealthChecks.csproj /BuildingBlocks/HealthChecks/
+
 RUN dotnet restore
 
 # Copy everything else and build

@@ -2,15 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.Metrics.AspNetCore.Health.Endpoints;
+using App.Metrics.Health;
+using App.Metrics.Health.Builder;
 using Microservices.BuildingBlocks.EventBus;
 using Microservices.BuildingBlocks.EventBus.Abstractions;
 using Microservices.BuildingBlocks.EventBusRabbitMQ;
+using Microservices.BuildingBlocks.HealthChecks;
 using Microservices.Services.Roster.API.IntegrationEvents.EventHandling;
 using Microservices.Services.Roster.API.IntegrationEvents.Events;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
@@ -57,6 +62,14 @@ namespace Roster.API
 
             RegisterEventBus(services);
 
+            var identityServerEndpoint = Configuration.GetValue<string>("Endpoints:IdentityServer");
+
+            // Add health checks
+            var healthBuilder = new HealthBuilder()
+                .HealthChecks.AddHttpGetCheck("IdentityServer", new Uri(new Uri(identityServerEndpoint), "/_system/health"), 3, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));  
+            services.AddHealth(healthBuilder.Build());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<HealthEndpointsHostingOptions>, HealthCheckOptions>());
+
             services.AddMvc();
         }
 
@@ -70,6 +83,7 @@ namespace Roster.API
 
             ConfigureEventBus(app);
 
+            app.UseHealthAllEndpoints();
             app.UseMvc();
         }
 

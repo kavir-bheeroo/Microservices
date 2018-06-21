@@ -39,6 +39,7 @@ services:
       - "5002:80"
     environment:
       - "Endpoints:RabbitMq=rabbitmq"
+      - "Endpoints:IdentityServer=http://identity"
     container_name: roster-api
     depends_on:
       - rabbitmq

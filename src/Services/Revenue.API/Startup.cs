@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using App.Metrics.AspNetCore.Health.Endpoints;
+using App.Metrics.Health;
+using App.Metrics.Health.Builder;
 using FluentValidation;
 using MediatR;
+using Microservices.BuildingBlocks.HealthChecks;
 using Microservices.Services.Revenue.API.Application.Behaviors;
 using Microservices.Services.Revenue.API.Application.Commands;
 using Microservices.Services.Revenue.API.Application.Queries;
@@ -17,6 +21,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -34,6 +39,8 @@ namespace Revenue.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var revenueDbConnectionString = Configuration.GetConnectionString("RevenueDb");
+
             // All MediatR dependencies like CommandHandlers and DomainEventHandlers are registered automatically with the following line.
             services.AddMediatR();
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
@@ -47,7 +54,7 @@ namespace Revenue.API
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<RevenueContext>(options =>
                 {
-                    options.UseSqlServer(Configuration.GetConnectionString("SqlServerDb"),
+                    options.UseSqlServer(revenueDbConnectionString,
                         sqlOptions => 
                         {
                             sqlOptions.MigrationsAssembly(typeof(Startup).Assembly.GetName().Name);
@@ -57,7 +64,13 @@ namespace Revenue.API
 
             services.AddScoped<IDailyRevenueRepository, DailyRevenueRepository>();
             services.AddScoped<ITripRepository, TripRepository>();
-            services.AddScoped<ITripQueries>(sp => new TripQueries(Configuration.GetConnectionString("SqlServerDb")));
+            services.AddScoped<ITripQueries>(sp => new TripQueries(revenueDbConnectionString));
+
+            // Add health checks
+            var healthBuilder = new HealthBuilder()
+                .HealthChecks.AddSqlCheck("RevenueDb", revenueDbConnectionString);  
+            services.AddHealth(healthBuilder.Builder);
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<HealthEndpointsHostingOptions>, HealthCheckOptions>());
 
             services.AddMvc();
         }
@@ -70,6 +83,7 @@ namespace Revenue.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHealthAllEndpoints();
             app.UseMvc();
         }
     }

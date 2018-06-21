@@ -4,17 +4,22 @@
     <LangVersion>Latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\"/>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0"/>
-    <PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.1"/>
-    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.0.3"/>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.0.3" />
+    <PackageReference Include="App.Metrics.AspNetCore.Health" Version="2.0.0" />
+    <PackageReference Include="App.Metrics.AspNetCore.Health.Endpoints" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1"/>
+    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Certificates\identityserver.pfx" CopyToOutputDirectory="PreserveNewest"/>
+    <None Update="Certificates\identityserver.pfx" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\HealthChecks\HealthChecks.csproj" />
   </ItemGroup>
 </Project>

@@ -11,6 +11,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="RabbitMQ.Client" Version="5.0.1"/>
+    <PackageReference Include="App.Metrics.AspNetCore.Health" Version="2.0.0"/>
+    <PackageReference Include="App.Metrics.AspNetCore.Health.Endpoints" Version="2.0.0"/>
+    <PackageReference Include="App.Metrics.Health.Checks.Http" Version="2.0.0"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BuildingBlocks\EventBus\EventBus.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\EventBusRabbitMQ\EventBusRabbitMQ.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\HealthChecks\HealthChecks.csproj"/>
   </ItemGroup>
 
 </Project>

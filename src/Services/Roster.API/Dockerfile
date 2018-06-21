@@ -1,8 +1,8 @@
-FROM microsoft/aspnetcore:2.0 AS base
+FROM microsoft/aspnetcore:latest AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/aspnetcore-build:2.0 AS build
+FROM microsoft/aspnetcore-build:latest AS build
 WORKDIR /src
 
 # Copy csproj and restore as distinct layers
@@ -10,6 +10,8 @@ COPY Microservices.sln ./
 COPY src/Services/Roster.API/Roster.API.csproj /Services/Roster.API/
 COPY src/BuildingBlocks/EventBus/EventBus.csproj /BuildingBlocks/EventBusRabbitMQ/
 COPY src/BuildingBlocks/EventBusRabbitMQ/EventBusRabbitMQ.csproj /BuildingBlocks/EventBusRabbitMQ/
+COPY src/BuildingBlocks/HealthChecks/HealthChecks.csproj /BuildingBlocks/HealthChecks/
+
 RUN dotnet restore
 
 # Copy everything else and build

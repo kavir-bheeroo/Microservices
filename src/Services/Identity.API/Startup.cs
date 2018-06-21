@@ -4,8 +4,11 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using App.Metrics.AspNetCore.Health.Endpoints;
+using App.Metrics.Health.Builder;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4.EntityFramework.Mappers;
+using Microservices.BuildingBlocks.HealthChecks;
 using Microservices.Services.Identity.API.Configuration;
 using Microservices.Services.Identity.API.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +17,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Options;
 
 namespace Microservices.Services.Identity.API
 {
@@ -32,6 +37,10 @@ namespace Microservices.Services.Identity.API
         {
             var connectionString = Configuration.GetConnectionString("IdentityServerDb");
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+
+            // Add health checks            
+            services.AddHealth(new HealthBuilder().HealthChecks.AddSqlCheck("IdentityServerDb", connectionString).Builder);
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<HealthEndpointsHostingOptions>, HealthCheckOptions>());
 
             // Configure Identity Server
             services.AddIdentityServer(x => { x.IssuerUri = "null"; })  // Use null if a common domain name is not available for the Identity Server
@@ -75,12 +84,8 @@ namespace Microservices.Services.Identity.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHealthAllEndpoints();
             app.UseIdentityServer();
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync("Hello World!");
-            });
         }
 
         public void InitialiseDatabase(IApplicationBuilder app)

@@ -15,6 +15,11 @@ using Microservices.BuildingBlocks.EventBusRabbitMQ;
 using Microservices.BuildingBlocks.EventBus.Abstractions;
 using Microservices.BuildingBlocks.EventBus;
 using RabbitMQ.Client;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using App.Metrics.AspNetCore.Health.Endpoints;
+using Microservices.BuildingBlocks.HealthChecks;
+using App.Metrics.Health.Builder;
+using App.Metrics.Health;
 
 namespace Microservices.Services.Resources.API
 {
@@ -61,13 +66,20 @@ namespace Microservices.Services.Resources.API
             });
 
             RegisterEventBus(services);
+            var identityServerEndpoint = Configuration.GetValue<string>("Endpoints:IdentityServer");
+
+            // Add health checks
+            var healthBuilder = new HealthBuilder()
+                .HealthChecks.AddHttpGetCheck("IdentityServer", new Uri(new Uri(identityServerEndpoint), "/_system/health"), 3, TimeSpan.FromSeconds(2), TimeSpan.FromSeconds(2));  
+            services.AddHealth(healthBuilder.Build());
+            services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<HealthEndpointsHostingOptions>, HealthCheckOptions>());
 
             services.AddMvc();
             
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = Configuration.GetValue<string>("Endpoints:IdentityServer");
+                    options.Authority = identityServerEndpoint;
                     options.RequireHttpsMetadata = false;
                     options.ApiName = "resources";
                 });
@@ -81,6 +93,7 @@ namespace Microservices.Services.Resources.API
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseHealthAllEndpoints();
             app.UseAuthentication();
             app.UseMvc();
         }

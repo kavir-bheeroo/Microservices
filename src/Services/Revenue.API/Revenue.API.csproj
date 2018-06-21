@@ -13,6 +13,9 @@
     <PackageReference Include="FluentValidation" Version="7.4.0"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" PrivateAssets="All"/>
     <PackageReference Include="Dapper" Version="1.50.4"/>
+    <PackageReference Include="App.Metrics.AspNetCore.Health" Version="2.0.0"/>
+    <PackageReference Include="App.Metrics.AspNetCore.Health.Endpoints" Version="2.0.0"/>
+    <PackageReference Include="App.Metrics.Health.Checks.Http" Version="2.0.0"/>
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1"/>
@@ -20,5 +23,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Revenue.Domain\Revenue.Domain.csproj"/>
     <ProjectReference Include="..\Revenue.Infrastructure\Revenue.Infrastructure.csproj"/>
+    <ProjectReference Include="..\..\BuildingBlocks\HealthChecks\HealthChecks.csproj"/>
   </ItemGroup>
 </Project>
