@@ -6,6 +6,7 @@ metadata:
     component: redis
   name: redis
 spec:
+  type: NodePort
   ports:
   - port: 6379
   selector:
