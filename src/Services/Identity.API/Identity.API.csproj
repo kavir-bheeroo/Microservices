@@ -14,9 +14,6 @@
     <PackageReference Include="App.Metrics.AspNetCore.Health.Endpoints" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1" />
-  </ItemGroup>
-  <ItemGroup>
     <None Update="Certificates\identityserver.pfx" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   <ItemGroup>

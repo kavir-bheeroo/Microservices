@@ -18,9 +18,6 @@
     <PackageReference Include="App.Metrics.Health.Checks.Http" Version="2.0.0"/>
   </ItemGroup>
   <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.1"/>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Revenue.Domain\Revenue.Domain.csproj"/>
     <ProjectReference Include="..\Revenue.Infrastructure\Revenue.Infrastructure.csproj"/>
     <ProjectReference Include="..\..\BuildingBlocks\HealthChecks\HealthChecks.csproj"/>

@@ -17,9 +17,21 @@ spec:
     spec:
       containers:
       - name: identity-server
-        image: kavir/microservices_identity:0.1
+        image: kavir/microservices_identity:0.2
         ports:
         - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /_system/ping
+            port: 80
+          initialDelaySeconds: 10
+          timeoutSeconds: 2
+        readinessProbe:
+          httpGet:
+            path: /_system/health
+            port: 80
+          initialDelaySeconds: 20
+          timeoutSeconds: 5
         env:
           - name: ConnectionStrings__IdentityServerDb
             value: "Server=sqlserver;Database=Microservices.Services.IdentityServerDb;User Id=sa;Password=Pass_w0rd;Application Name=Identity.API"
