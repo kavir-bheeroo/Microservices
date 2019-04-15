@@ -3,9 +3,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="App.Metrics.AspNetCore.Health" Version="2.0.0"/>
-    <PackageReference Include="App.Metrics.AspNetCore.Health.Endpoints" Version="2.0.0"/>
-    <PackageReference Include="App.Metrics.Health.Checks.Http" Version="2.0.0"/>
-    <PackageReference Include="System.Data.SqlClient" Version="4.5.0"/>
+    <PackageReference Include="App.Metrics.AspNetCore.Health" Version="2.1.0" />
+    <PackageReference Include="App.Metrics.AspNetCore.Health.Endpoints" Version="2.1.0" />
+    <PackageReference Include="App.Metrics.Health.Checks.Http" Version="2.1.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
   </ItemGroup>
 </Project>

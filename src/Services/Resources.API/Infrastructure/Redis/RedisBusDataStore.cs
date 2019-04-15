@@ -1,10 +1,9 @@
-using System;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using Microservices.Services.Resources.API.Configuration;
 using Microservices.Services.Resources.API.Models;
-using Microservices.Services.Resources.API.Infrastructure.Redis;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using StackExchange.Redis;
+using System;
 
 namespace Microservices.Services.Resources.API.Infrastructure.Redis
 {

@@ -27,8 +27,8 @@ namespace Microservices.Services.Revenue.API.Application.Validations
                 .NotEmpty()
                 .NotEqual(default(DateTime));
 
-            RuleFor(command => command.TripLegs)
-                .SetCollectionValidator(new TripLegValidator());
+            RuleForEach(command => command.TripLegs)
+                .SetValidator(new TripLegValidator());
         }
     }
 
