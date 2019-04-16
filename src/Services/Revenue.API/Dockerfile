@@ -1,20 +1,15 @@
-FROM microsoft/aspnetcore:latest AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/aspnetcore-build:latest AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /src
 
 # Copy csproj and restore as distinct layers
-COPY Microservices.sln ./
 COPY src/Services/Revenue.API/Revenue.API.csproj /Services/Revenue.API/
 COPY src/Services/Revenue.Domain/Revenue.Domain.csproj /Services/Revenue.Domain/
 COPY src/Services/Revenue.Infrastructure/Revenue.Infrastructure.csproj /Services/Revenue.Infrastructure/
 COPY src/BuildingBlocks/HealthChecks/HealthChecks.csproj /BuildingBlocks/HealthChecks/
-# COPY src/BuildingBlocks/EventBus/EventBus.csproj /BuildingBlocks/EventBusRabbitMQ/
-# COPY src/BuildingBlocks/EventBusRabbitMQ/EventBusRabbitMQ.csproj /BuildingBlocks/EventBusRabbitMQ/
-
-RUN dotnet restore
 
 # Copy everything else and build
 COPY . .

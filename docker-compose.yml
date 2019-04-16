@@ -16,20 +16,7 @@ services:
     depends_on:
       - sqlserver
 
-  resources:
-    build:
-      context: .
-      dockerfile: ./src/Services/Resources.API/Dockerfile
-    ports:
-      - "5001:80"
-    environment:
-      - "Endpoints:Redis=redis:6379"
-      - "Endpoints:RabbitMq=rabbitmq"
-      - "Endpoints:IdentityServer=http://identity"
-    container_name: resources-api
-    depends_on:
-      - rabbitmq
-      - redis
+
 
   roster:
     build:

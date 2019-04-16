@@ -1,16 +1,13 @@
-FROM microsoft/aspnetcore:latest AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:2.2 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM microsoft/aspnetcore-build:latest AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /src
 
 # Copy csproj and restore as distinct layers
-COPY Microservices.sln ./
 COPY src/Services/Identity.API/Identity.API.csproj /Services/Identity.API/
 COPY src/BuildingBlocks/HealthChecks/HealthChecks.csproj /BuildingBlocks/HealthChecks/
-
-RUN dotnet restore
 
 # Copy everything else and build
 COPY . .
